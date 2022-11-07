@@ -9,7 +9,7 @@ const express = require("express");
 const app = express();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server, {cors: {
-  origin: "http://localhost:8080",
+  origin: "https://cognizantcom272-dev-ed.lightning.force.com",
   methods: ["GET", "POST"]
 }});
 require("dotenv").config();
