@@ -1,5 +1,7 @@
 'use strict';
 
+const helmet = require("helmet");
+
 const INDEX = '/index.html';
 const express = require("express");
 
@@ -14,7 +16,11 @@ app.use((req, res) => res.sendFile(INDEX, { root: __dirname }));
 server.listen(PORT, () => {
   console.log("Listening on port: " + PORT);
 });
-
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 
 //EVENT LISTENERS
 
