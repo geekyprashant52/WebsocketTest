@@ -1,0 +1,16 @@
+{
+  "name": "websockettest",
+  "version": "1.0.0",
+  "description": "test websocket project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Prashant Rohankar",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "socket.io": "^4.5.3"
+  }
+}
