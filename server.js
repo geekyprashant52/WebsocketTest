@@ -17,7 +17,11 @@ const PORT = process.env.PORT || 8282;
 
 app.use(cors({credentials: true, origin: 'https://cognizantcom272-dev-ed.lightning.force.com'}));
 app.use(express());
-app.use((req, res) => res.sendFile(INDEX, { root: __dirname }));
+app.use((req, res) => {
+    res.header("Access-Control-Allow-Credentials", true);
+    res.sendFile(INDEX, { root: __dirname })
+  }
+);
 server.listen(PORT, () => {
   console.log("Listening on port: " + PORT);
 });
