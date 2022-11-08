@@ -1,22 +1,13 @@
-
-// var express = require('express');
-// var app = express();
-// var server = app.listen(8810);
-// var io = require('socket.io').listen(server);
+'use strict';
 
 const helmet = require("helmet");
 const cors = require("cors");
-require("dotenv").config();
-const PORT = process.env.PORT || 8810;
 
 const INDEX = '/index.html';
 const express = require("express");
 
 const app = express();
 const server = require("http").createServer(app);
-server.listen(PORT, () => {
-  console.log("Listening on port: " + PORT);
-});
 const io = require("socket.io", {
   allowEIO3: true // false by default
 })(server, {cors: {
@@ -25,8 +16,8 @@ const io = require("socket.io", {
   methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
   credentials: true,
 }});
-
-app.use(express());
+require("dotenv").config();
+const PORT = process.env.PORT || 8282;
 
 // app.use(cors({credentials: true, 
 //   origin: 'https://cognizantcom-5e5-dev-ed.develop.lightning.force.com'}));
@@ -38,13 +29,15 @@ app.use(
       credentials: true,
     })
   );
-
+app.use(express());
 app.use((req, res) => {
     res.header("Access-Control-Allow-Credentials", true);
     res.sendFile(INDEX, { root: __dirname })
   }
 );
-
+server.listen(PORT, () => {
+  console.log("Listening on port: " + PORT);
+});
 app.use(
   helmet({
     contentSecurityPolicy: false,
