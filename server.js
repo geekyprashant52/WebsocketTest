@@ -6,6 +6,8 @@
 
 const helmet = require("helmet");
 const cors = require("cors");
+require("dotenv").config();
+const PORT = process.env.PORT || 8810;
 
 const INDEX = '/index.html';
 const express = require("express");
@@ -23,8 +25,8 @@ const io = require("socket.io", {
   methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
   credentials: true,
 }});
-require("dotenv").config();
-const PORT = process.env.PORT || 8282;
+
+app.use(express());
 
 // app.use(cors({credentials: true, 
 //   origin: 'https://cognizantcom-5e5-dev-ed.develop.lightning.force.com'}));
@@ -36,7 +38,7 @@ app.use(
       credentials: true,
     })
   );
-app.use(express());
+
 app.use((req, res) => {
     res.header("Access-Control-Allow-Credentials", true);
     res.sendFile(INDEX, { root: __dirname })
