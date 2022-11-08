@@ -11,7 +11,7 @@ const server = require("http").createServer(app);
 const io = require("socket.io")(server, {cors: {
   origin: "https://cognizantcom-5e5-dev-ed.develop.lightning.force.com",
   preflightContinue: true,
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
   credentials: true,
 }});
 require("dotenv").config();
@@ -23,7 +23,7 @@ app.use(
     cors({
       origin: 'https://cognizantcom-5e5-dev-ed.develop.lightning.force.com',
       preflightContinue: true,
-      methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+      methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
       credentials: true,
     })
   );
