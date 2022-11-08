@@ -1,3 +1,9 @@
+
+// var express = require('express');
+// var app = express();
+// var server = app.listen(8810);
+// var io = require('socket.io').listen(server);
+
 const helmet = require("helmet");
 const cors = require("cors");
 
@@ -6,6 +12,9 @@ const express = require("express");
 
 const app = express();
 const server = require("http").createServer(app);
+server.listen(PORT, () => {
+  console.log("Listening on port: " + PORT);
+});
 const io = require("socket.io", {
   allowEIO3: true // false by default
 })(server, {cors: {
@@ -33,9 +42,7 @@ app.use((req, res) => {
     res.sendFile(INDEX, { root: __dirname })
   }
 );
-server.listen(PORT, () => {
-  console.log("Listening on port: " + PORT);
-});
+
 app.use(
   helmet({
     contentSecurityPolicy: false,
