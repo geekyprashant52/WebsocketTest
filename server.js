@@ -9,7 +9,10 @@ const express = require("express");
 const app = express();
 const server = require("http").createServer(app);
 const io = require("socket.io", {
-  allowEIO3: true // false by default
+  allowEIO3: true,
+  forceNew: true,
+  transports: ["polling", "websocket"],
+  secure: true,
 })(server, {cors: {
   origin: "https://cognizantcom-5e5-dev-ed.develop.lightning.force.com",
   preflightContinue: true,
