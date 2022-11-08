@@ -15,7 +15,8 @@ const io = require("socket.io")(server, {cors: {
 require("dotenv").config();
 const PORT = process.env.PORT || 8282;
 
-app.use(cors({credentials: true, origin: 'https://cognizantcom272-dev-ed.lightning.force.com'}));
+app.use(cors({credentials: true, 
+  origin: 'https://cognizantcom-5e5-dev-ed.develop.lightning.force.com'}));
 app.use(express());
 app.use((req, res) => {
     res.header("Access-Control-Allow-Credentials", true);
