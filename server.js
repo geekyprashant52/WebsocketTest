@@ -5,6 +5,7 @@ const cors = require("cors");
 
 const INDEX = '/index.html';
 const express = require("express");
+const { time } = require("console");
 
 const app = express();
 const server = require("http").createServer(app);
@@ -35,8 +36,7 @@ app.use(
 app.use(express());
 app.use((req, res) => {
     res.header("Access-Control-Allow-Credentials", true);
-    //res.sendFile(INDEX, { root: __dirname })
-    res.send("connection successfully established")
+    res.sendFile(INDEX, { root: __dirname })
   }
 );
 server.listen(PORT, () => {
