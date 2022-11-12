@@ -9,30 +9,13 @@ const { time } = require("console");
 
 const app = express();
 const server = require("http").createServer(app);
-const io = require("socket.io", {
-  allowEIO3: true,
-  forceNew: true,
-  transports: ["polling", "websocket"],
-  secure: true,
-})(server, {cors: {
-  origin: "https://cognizantcom-5e5-dev-ed.develop.lightning.force.com",
-  preflightContinue: true,
-  methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
-  credentials: true,
-}});
+const io = require("socket.io")(server);
 require("dotenv").config();
 const PORT = process.env.PORT || 8282;
 
 // app.use(cors({credentials: true, 
 //   origin: 'https://cognizantcom-5e5-dev-ed.develop.lightning.force.com'}));
-app.use(
-    cors({
-      origin: 'https://cognizantcom-5e5-dev-ed.develop.lightning.force.com',
-      preflightContinue: true,
-      methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
-      credentials: true,
-    })
-  );
+app.use(cors());
 app.use(express());
 app.use((req, res) => {
     res.header("Access-Control-Allow-Credentials", true);
