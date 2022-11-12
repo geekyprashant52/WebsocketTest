@@ -36,7 +36,7 @@ app.use(
 
 io.on("connection", (socket) => {
   
-    console.log("User Connected");
+    console.log("User Connected " + window.location.protocol + "//" + window.location.host);
 
     let data = { id: socket.id };
     socket.emit("set_id", data);
@@ -44,6 +44,8 @@ io.on("connection", (socket) => {
     socket.on("disconnect", () => {
       console.log("User Disconnected");
     });
+
+    
   
 });
 
