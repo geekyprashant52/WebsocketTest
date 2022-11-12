@@ -35,7 +35,8 @@ app.use(
 app.use(express());
 app.use((req, res) => {
     res.header("Access-Control-Allow-Credentials", true);
-    res.sendFile(INDEX, { root: __dirname })
+    //res.sendFile(INDEX, { root: __dirname })
+    res.send("connection successfully established")
   }
 );
 server.listen(PORT, () => {
