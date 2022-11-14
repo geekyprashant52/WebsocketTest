@@ -13,7 +13,7 @@ const server = require("http").createServer(app);
 
 const io = require("socket.io")(server,{
   cors: {
-    origin: "https://cognizantcom-5e5-dev-ed.develop.my.salesforce.com",
+    origin: "*",
     methods: ["GET", "POST"],
     allowedHeaders: ["my-custom-header"],
     credentials: true
