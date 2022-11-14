@@ -34,7 +34,11 @@ app.use(express());
 app.use((req, res) => {
     console.log(req.protocol + '://' + req.get('host') + req.originalUrl);
     hostUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-    res.header("Access-Control-Allow-Credentials", true);
+    // res.header("Access-Control-Allow-Credentials", true);
+    res.header('Access-Control-Allow-Origin' , '*');
+    res.header('Access-Control-Allow-Methods' , ['GET', 'POST']);
+    res.header('Access-Control-Allow-Headers' , ['Content-Type', 'X-Auth-Token', 'Origin' , 'Authorization']);
+
     res.sendFile(INDEX, { root: __dirname })
   }
 );
