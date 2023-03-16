@@ -1,71 +1,69 @@
 'use strict';
 
-const helmet = require("helmet");
-const cors = require("cors");
+const express = require('express');
+const socketIO = require('socket.io');
 
+const PORT = process.env.PORT || 3000;
 const INDEX = '/index.html';
-const express = require("express");
-const { time } = require("console");
 
-const app = express();
-const server = require("http").createServer(app);
+const server = express()
+  .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
+  .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
+const io = socketIO(server);
 
-const io = require("socket.io")(server,{
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-    allowedHeaders: ["my-custom-header"],
-    credentials: true
+io.on('connection', (socket) => {
+  console.log('Client connected');
+
+  /**
+   * Create function to send status
+   * @param success {bool}
+   * @param message {string}
+   */
+  const sendStatus = function({success, message}){
+    socket.emit('status', {success, message});
   }
-});
 
+  socket.on('transmit', () => {
+    io.emit('chatupdated');
+  });
 
+  socket.on('usertyping', (data) => {
+    io.emit('istyping', data);
+  });
 
-require("dotenv").config();
-const PORT = process.env.PORT || 8282;
+  socket.on('userEnteredChat', () => {
+    io.emit('refreshChatUsers');
+  });
 
-let hostUrl = null;
+  socket.on('userLeftChat', () => {
+    io.emit('refreshChatUsers');
+  });
 
-// app.use(cors({credentials: true, 
-//   origin: 'https://cognizantcom-5e5-dev-ed.develop.lightning.force.com'}));
-app.use(cors());
-app.use(express());
-app.use((req, res) => {
-    console.log(req.protocol + '://' + req.get('host') + req.originalUrl);
-    hostUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-    // res.header("Access-Control-Allow-Credentials", true);
-    res.header('Access-Control-Allow-Origin' , '*');
-    res.header('Access-Control-Allow-Methods' , ['GET', 'POST']);
-    res.header('Access-Control-Allow-Headers' , ['Content-Type', 'X-Auth-Token', 'Origin' , 'Authorization']);
+  socket.on('usernottyping', (data) => {
+    io.emit('nottyping', data);
+  });
 
-    res.sendFile(INDEX, { root: __dirname })
-  }
-);
-server.listen(PORT, () => {
-  console.log("Listening on port: " + PORT);
-});
-// app.use(
-//   helmet({
-//     contentSecurityPolicy: false,
-//   })
-// );
+  socket.on('input', (data) => {
+    const name = data.name;
+    const message = data.message;
 
-//EVENT LISTENERS
+    if (!name || !message) {
+      sendStatus({
+        success: false,
+        message: 'Please enter a name and message'
+      });
+    } else {
+      socket.emit('output', data);
+      sendStatus({
+        success: true,
+        message: 'Message updating...'
+      });
+    }
+  })
 
+  socket.on('disconnect', () => console.log('Client disconnected'));
 
-io.on("connection", (socket) => {
-  
-    console.log("User Connected " + hostUrl);
-    let data = { id: socket.id };
-    socket.emit("set_id", data);
- 
-    socket.on("disconnect", () => {
-      console.log("User Disconnected");
-    });
-
-    
-  
 });
 
 setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
