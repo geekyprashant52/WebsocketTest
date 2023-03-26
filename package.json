@@ -12,9 +12,7 @@
   "author": "Prashant Rohankar",
   "license": "ISC",
   "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-    "socket.io": "^4.5.3"
+    "@fastify/websocket": "^7.1.3",
+    "fastify": "^4.15.0"
   }
 }
